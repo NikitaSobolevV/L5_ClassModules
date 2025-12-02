@@ -1,1 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ЛР5 - Классы и модули в JavaScript</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        pre {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow: auto;
+            max-height: 400px;
+        }
+        .log {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Лабораторная работа 5: Классы и модули</h1>
+    <div class="container">
+        <h2>Тема: "Отдел" (Department)</h2>
+        <p><strong>Номер в журнале:</strong> 19</p>
+        <p><strong>Классы:</strong></p>
+        <ul>
+            <li><code>Department</code> - родительский класс</li>
+            <li><code>EnhancedDepartment</code> - дочерний класс</li>
+        </ul>
+        
+        <div>
+            <button onclick="runDemo()">Запустить демонстрацию</button>
+            <button onclick="clearConsole()">Очистить консоль</button>
+        </div>
+        
+        <h3>Консоль браузера:</h3>
+        <div id="console" class="log"></div>
+    </div>
 
+    <div class="container">
+        <h3>Код классов:</h3>
+        <pre><code>// Department.js - родительский класс
+export class Department {
+    #name;          // название отдела
+    #employeeCount; // количество сотрудников
+    #isActive;      // активен ли отдел
+    
+    // ... геттеры, сеттеры, методы
+}</code></pre>
+    </div>
+
+    <script type="module">
+        import { EnhancedDepartment } from './EnhancedDepartment.js';
+
+        const consoleDiv = document.getElementById('console');
+        
+        function logToDiv(message) {
+            consoleDiv.innerHTML += message + '\n';
+            consoleDiv.scrollTop = consoleDiv.scrollHeight;
+        }
+
+        function runDemo() {
+            consoleDiv.innerHTML = '=== Демонстрация работы классов ===\n\n';
+            
+            // Создаем экземпляры
+            const dept1 = new EnhancedDepartment("IT-отдел", 15, true, 500000);
+            const dept2 = new EnhancedDepartment("Маркетинг", 8, true, 300000);
+            
+            // Вызываем show()
+            logToDiv('Первый отдел:');
+            dept1.show = function() {
+                logToDiv(`Название: ${this.name}`);
+                logToDiv(`Сотрудников: ${this.employeeCount}`);
+                logToDiv(`Бюджет: ${this.budget} руб.`);
+                logToDiv('---');
+            };
+            dept1.show();
+            
+            logToDiv('Второй отдел:');
+            dept2.show = function() {
+                logToDiv(`Название: ${this.name}`);
+                logToDiv(`Сотрудников: ${this.employeeCount}`);
+                logToDiv(`Бюджет: ${this.budget} руб.`);
+                logToDiv('---');
+            };
+            dept2.show();
+            
+            // Также выводим в консоль браузера
+            console.log("Демонстрация запущена. Проверьте консоль браузера (F12)");
+        }
+
+        function clearConsole() {
+            consoleDiv.innerHTML = '';
+        }
+    </script>
+</body>
+</html>
